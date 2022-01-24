@@ -1,4 +1,4 @@
-package com.example.runner.runnerbase;
+package com.example.runner.runnerbase.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

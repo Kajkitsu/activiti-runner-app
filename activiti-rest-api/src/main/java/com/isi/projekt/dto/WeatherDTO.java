@@ -1,18 +1,18 @@
-package com.isi.projekt.servicetasks;
+package com.isi.projekt.dto;
 
 
-public class Weather {
+public class WeatherDTO {
     private String numOfDay;
     private String temperature;
     private String wind;
 
-    public Weather(String numOfDay, String temperature, String wind) {
+    public WeatherDTO(String numOfDay, String temperature, String wind) {
         this.numOfDay = numOfDay;
         this.temperature = temperature;
         this.wind = wind;
     }
 
-    public Weather(){
+    public WeatherDTO() {
 
     }
 

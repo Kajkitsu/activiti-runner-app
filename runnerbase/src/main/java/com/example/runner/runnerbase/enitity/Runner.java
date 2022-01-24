@@ -1,4 +1,4 @@
-package com.example.runner.runnerbase;
+package com.example.runner.runnerbase.enitity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
