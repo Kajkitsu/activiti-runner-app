@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RunnerDTO {
+public class RunnerRequestDTO {
     private String name;
     private String surname;
     private String email;

@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class RunnerService {
@@ -15,19 +14,40 @@ public class RunnerService {
         this.runnerRepository = runnerRepository;
     }
 
-    public void addRunner(RunnerDTO runnerDTO){
-            Runner runner = new Runner();
-            runner.setName(runnerDTO.getName());
-            runner.setSurname(runnerDTO.getSurname());
-            runner.setEmail(runnerDTO.getEmail());
-            runner.setCity(runnerDTO.getCity());
-            runner.setAge(runnerDTO.getAge());
-            runnerRepository.save(runner);
-        }
+    public RunnerResponseDTO addRunner(RunnerRequestDTO runnerRequestDTO) {
+        return RunnerResponseDTO.from(
+                runnerRepository.save(
+                        Runner.builder()
+                                .age(runnerRequestDTO.getAge())
+                                .city(runnerRequestDTO.getCity())
+                                .email(runnerRequestDTO.getEmail())
+                                .paid(false)
+                                .surname(runnerRequestDTO.getSurname())
+                                .name(runnerRequestDTO.getName())
+                                .price(100.0)
+                                .build()));
+    }
 
-    public List<RunnerDTO> getAllRunners(){
-        return StreamSupport.stream(runnerRepository.findAll().stream().spliterator(), false)
-                .map(runner -> new RunnerDTO(runner.getName(), runner.getSurname(), runner.getEmail(),runner.getAge(), runner.getCity()))
+    public List<RunnerResponseDTO> getRunners() {
+        return runnerRepository.findAll().stream()
+                .map(RunnerResponseDTO::from)
                 .collect(Collectors.toList());
+    }
+
+    public List<RunnerResponseDTO> getRunnersForEmail(String email) {
+        return runnerRepository.findAllByEmail(email)
+                .stream()
+                .map(RunnerResponseDTO::from)
+                .collect(Collectors.toList());
+    }
+
+
+    public RunnerResponseDTO markAsPaid(Integer id) throws AlreadyPaidException {
+        Runner runner = runnerRepository.getById(id);
+        if(runner.getPaid()){
+            throw new AlreadyPaidException();
+        }
+        runner.setPaid(true);
+        return RunnerResponseDTO.from(runner);
     }
 }
